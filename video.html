@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ video.title }} – EP Tube{% endblock %}
+
+{% block content %}
+
+  <h1>{{ video.title }}</h1>
+
+  <div class="player-container">
+    <iframe src="{{ video.embed }}" allowfullscreen frameborder="0"></iframe>
+  </div>
+
+  <div class="meta-detail">
+    <p>Duration: {{ video.length_min }} ({{ video.length_sec }} sec)</p>
+    <p>Views: {{ video.views | int | default(0) | format_number }}</p>
+    <p>Rating: {{ video.rate }}</p>
+    <p>Added: {{ video.added }}</p>
+    {% if video.keywords %}
+      <p>Tags: {{ video.keywords | join(', ') }}</p>
+    {% endif %}
+  </div>
+
+  <a href="{{ url_for('index') }}" class="btn back">← Back to search</a>
+
+{% endblock %}

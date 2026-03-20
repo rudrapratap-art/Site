@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}EP Tube{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header>
+    <h1>EP Tube</h1>
+    <p>HD Videos • Powered by Eporner API v2</p>
+
+    <form action="/" method="GET" class="search-form">
+      <input type="text" name="q" value="{{ query if query != 'all' else '' }}" placeholder="Search (teen, anal, milf...)">
+      <select name="order">
+        <option value="latest" {% if order == 'latest' %}selected{% endif %}>Latest</option>
+        <option value="most-popular" {% if order == 'most-popular' %}selected{% endif %}>Popular</option>
+        <option value="top-rated" {% if order == 'top-rated' %}selected{% endif %}>Top Rated</option>
+        <option value="longest" {% if order == 'longest' %}selected{% endif %}>Longest</option>
+      </select>
+      <button type="submit">Search</button>
+    </form>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>Age 18+ only • All content from eporner.com</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}EP Tube – Search{% endblock %}
+
+{% block content %}
+
+  {% if videos %}
+    <div class="grid">
+      {% for v in videos %}
+        <a href="{{ url_for('video_detail', video_id=v.id) }}" class="card">
+          <div class="thumb">
+            <img src="{{ v.default_thumb.src }}" alt="{{ v.title }}" loading="lazy">
+            <span class="duration">{{ v.length_min }}</span>
+          </div>
+          <div class="info">
+            <h3 class="title">{{ v.title }}</h3>
+            <div class="meta">
+              👀 {{ v.views | int | default(0) | format_number }} • ⭐ {{ v.rate }}
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    <!-- Simple pagination -->
+    <div class="pagination">
+      {% if page > 1 %}
+        <a href="?q={{ query }}&page={{ page-1 }}&order={{ order }}" class="btn">← Previous</a>
+      {% endif %}
+      <span>Page {{ page }} of {{ total_pages }}</span>
+      {% if page < total_pages %}
+        <a href="?q={{ query }}&page={{ page+1 }}&order={{ order }}" class="btn">Next →</a>
+      {% endif %}
+    </div>
+
+  {% else %}
+    <p style="text-align:center; color:#888; padding:3rem;">No videos found. Try another search.</p>
+  {% endif %}
+
+{% endblock %}
