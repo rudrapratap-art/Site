@@ -55,18 +55,22 @@ def get_video_detail(video_id):
     if not video_id:
         return None
 
-    params = {
-        "id": video_id,
-        "thumbsize": "big",
-        "format": "json"
+    params = {"id": video_id, "thumbsize": "big", "format": "json"}
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": "https://www.eporner.com/",
+        "Accept": "application/json, text/plain, */*"
     }
 
     try:
-        resp = requests.get(VIDEO_DETAIL_URL, params=params, timeout=10)
+        resp = requests.get(VIDEO_DETAIL_URL, params=params, headers=headers, timeout=15)
         resp.raise_for_status()
-        return resp.json()
+        data = resp.json()
+        return data
     except Exception as e:
-        print(f"Video detail error ({video_id}): {e}")
+        print(f"Video detail error for {video_id}: {e}")
         return None
 
 
