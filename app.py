@@ -29,27 +29,25 @@ def fetch_videos(query="all", page=1, order="latest", per_page=24):
         "per_page": per_page,
         "order": order,
         "thumbsize": "big",
-        "gay": 0,     # change to 1 or 2 if needed
+        "gay": 0,
         "lq": 1,
         "format": "json"
     }
 
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": "https://www.eporner.com/",
+        "Accept": "application/json, text/plain, */*"
+    }
+
     try:
-        resp = requests.get(BASE_URL, params=params, timeout=12)
+        resp = requests.get(BASE_URL, params=params, headers=headers, timeout=15)
         resp.raise_for_status()
         data = resp.json()
-
-        videos = data.get("videos", [])
-        total_count = data.get("total_count", 0)
-        total_pages = data.get("total_pages", 1)
-
-        return videos, total_count, total_pages
-
-    except requests.RequestException as e:
-        print(f"API fetch error: {e}")
-        return [], 0, 1
-    except ValueError:
-        print("API returned invalid JSON")
+        return data.get("videos", []), data.get("total_count", 0), data.get("total_pages", 1)
+    except Exception as e:
+        print(f"Eporner API error: {e}")
         return [], 0, 1
 
 
